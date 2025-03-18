@@ -278,7 +278,7 @@ class SSTData():
         self.nyoffset = args.nyoffset
         self.nzoffset = args.nzoffset
         
-        self.loadpath = f'{args.rawdatadir}{self.var}_{args.rawdatasnap}'
+        self.loadpath = f'{args.rawdatadir}{self.var}{args.delimiter}{args.rawdatasnap}'
         self.method = args.method
         
     # Check data file
