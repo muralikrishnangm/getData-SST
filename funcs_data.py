@@ -287,6 +287,8 @@ class SSTData():
 
     # Extract data
     def _get_data(self):
-        datacube = get_data(self.method, self.loadpath, self.nx, self.ny, self.nz, self.nxsl, self.nysl, self.nzsl, self.nxoffset, self.nyoffset, self.nzoffset, self.nxskip, self.nyskip, self.nzskip, self.nbyte)
+        datacube = get_data(self.method, self.loadpath, self.nx, self.ny, self.nz, 
+                            self.nxsl, self.nysl, self.nzsl, self.nxoffset, self.nyoffset, self.nzoffset, 
+                            self.nxskip, self.nyskip, self.nzskip, self.nbyte)
         return datacube
       

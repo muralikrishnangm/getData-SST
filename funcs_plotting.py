@@ -14,6 +14,7 @@ def plot_contour_box(ax, x, y, z, datacube, gravity):
     """
     # Get meshgrid and set cmap
     X, Y, Z = np.meshgrid(x,y,z, indexing='ij')
+    nxsl, nysl, nzsl = X.shape
     clevels = np.linspace(datacube.min()*0.5, datacube.max()*0.5, 101)
     kw = {
         'vmin': clevels.min(),
@@ -57,6 +58,8 @@ def plot_contour_box(ax, x, y, z, datacube, gravity):
             zlabel='Z',
         )
         ax.set(xlim=[xmin, xmax], ylim=[ymin, ymax], zlim=[zmin, zmax])
+        aspectratio_x, aspectratio_z, aspectratio_y = int(nxsl/nzsl), 1, int(nysl/nzsl)
+        ax.set_box_aspect([aspectratio_x, aspectratio_y, aspectratio_z], zoom=1)
     elif gravity == 'y':
         # Plot contour surfaces
         A = ax.contourf(
@@ -84,15 +87,16 @@ def plot_contour_box(ax, x, y, z, datacube, gravity):
             zlabel='Y',
         )
         ax.set(xlim=[xmin, xmax], ylim=[zmin, zmax], zlim=[ymin, ymax])
+        aspectratio_x, aspectratio_z, aspectratio_y = int(nxsl/nysl), int(nzsl/nysl), 1
+        ax.set_box_aspect([aspectratio_x, aspectratio_z, aspectratio_y], zoom=1)
     else:
         raise Exception("Invalide gravity. Choose 'y' or 'z'")
     
+    fig = ax.get_figure()
+    cbar = fig.colorbar(A, ax=ax, orientation='horizontal', pad=-1.1, fraction=0.04)
+    cbar.set_label(r"$\text{variable}$")  # or whatever label is appropriate
     # Set zoom and angle view
     ax.view_init(20, -45)
-    nxsl, nysl, nzsl = X.shape 
-    if gravity == 'z': aspectratio_x, aspectratio_z, aspectratio_y = int(nxsl/nzsl), 1             , int(nysl/nzsl)
-    if gravity == 'y': aspectratio_x, aspectratio_z, aspectratio_y = int(nxsl/nysl), int(nzsl/nysl), 1
-    ax.set_box_aspect([aspectratio_x, aspectratio_y, aspectratio_z], zoom=1)
     ax.grid(False)
     # ax.axis("equal");
     # ax.axis("off");
